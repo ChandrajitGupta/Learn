@@ -4,26 +4,28 @@
   <button onClick="add()">Add</button>
   <ul id="to-do" style="display: flex; flex-direction: column; gap: 15px"></ul>
   <script>
-    (() => {
-      const prevToDo = Object.values(localStorage);
-      for (const toDo of prevToDo) {
-        const liEl = document.createElement("li");
-        const spanEl = document.createElement("span");
-        const btn = document.createElement("button");
-        const ulEl = document.querySelector("#to-do");
-        spanEl.textContent = toDo;
-        btn.textContent = `Delete`;
-        btn.addEventListener("click", (e) => {
-          const key = e.target.parentElement.querySelector("span").textContent.trim();
-          e.target.parentElement.remove();
-          localStorage.removeItem(key);
-        });
-        btn.setAttribute("style", "margin-left: 8px");
-        liEl.appendChild(spanEl);
-        liEl.appendChild(btn);
-        ulEl.appendChild(liEl);
-      }
-    })();
+  (() => {
+    const prevToDo = Object.keys(localStorage);
+    for (const key of prevToDo) {
+      const toDo = localStorage.getItem(key);
+      const liEl = document.createElement("li");
+      const spanEl = document.createElement("span");
+      const btn = document.createElement("button");
+      const ulEl = document.querySelector("#to-do");
+      liEl.setAttribute("id", key);
+      spanEl.textContent = toDo;
+      btn.textContent = "Delete";
+      btn.addEventListener("click", (e) => {
+        const key = e.target.parentElement.id;
+        e.target.parentElement.remove();
+        localStorage.removeItem(key);
+      });
+      btn.setAttribute("style", "margin-left: 8px");
+      liEl.appendChild(spanEl);
+      liEl.appendChild(btn);
+      ulEl.appendChild(liEl);
+    }
+  })();
     const add = () => {
       const liEl = document.createElement("li");
       const spanEl = document.createElement("span");
