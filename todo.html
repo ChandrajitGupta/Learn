@@ -1,0 +1,51 @@
+<body style="background-color: #708090; color: white">
+  <h1>To-Do App</h1>
+  <input />
+  <button onClick="add()">Add</button>
+  <ul id="to-do" style="display: flex; flex-direction: column; gap: 15px"></ul>
+  <script>
+    (() => {
+      const prevToDo = Object.values(localStorage);
+      for (const toDo of prevToDo) {
+        const liEl = document.createElement("li");
+        const spanEl = document.createElement("span");
+        const btn = document.createElement("button");
+        const ulEl = document.querySelector("#to-do");
+        spanEl.textContent = toDo;
+        btn.textContent = `Delete`;
+        btn.addEventListener("click", (e) => {
+          const key = e.target.parentElement.querySelector("span").textContent.trim();
+          e.target.parentElement.remove();
+          localStorage.removeItem(key);
+        });
+        btn.setAttribute("style", "margin-left: 8px");
+        liEl.appendChild(spanEl);
+        liEl.appendChild(btn);
+        ulEl.appendChild(liEl);
+      }
+    })();
+    const add = () => {
+      const liEl = document.createElement("li");
+      const spanEl = document.createElement("span");
+      const btn = document.createElement("button");
+      const input = document.querySelector("input").value;
+      const ulEl = document.querySelector("#to-do");
+
+      spanEl.textContent = `${input} `;
+      const id = String(Date.now());
+      liEl.setAttribute("id", id);
+      localStorage.setItem(id, input);
+      btn.textContent = `Delete`;
+      btn.addEventListener("click", (e) => {
+        const key = e.target.parentElement.id;
+        e.target.parentElement.remove();
+        localStorage.removeItem(key);
+      });
+      btn.setAttribute("style", "margin-left: 8px");
+      liEl.appendChild(spanEl);
+      liEl.appendChild(btn);
+      ulEl.appendChild(liEl);
+      console.log("addition done!");
+    };
+  </script>
+</body>
